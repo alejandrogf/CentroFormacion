@@ -79,6 +79,36 @@ namespace CentroFormacion
             }
         }
 
+        //Para gestionar, por ejemplo, una página con una vista con varios filtros, entra en accion
+        //el lazyloading, que hace que las consultas que hacemos realmente lo que tienen son las
+        //instrucciones para llegar a los datos, no los datos en si mismos.
+        //Únicamente cuando se incluye .ToList() o se recorren con for/foreach, se obtienen los datos
+        //Para gestionar el lazyloading se puede hacer a nivel local, en un método concreto, o en general
+        //para la app.
+        public static void SinLazy()
+        {
+            using (var ctx = new CentroFormacionEntities())
+            {//Desactivado en local.
+                ctx.Configuration.LazyLoadingEnabled = false;
+                // La instruccion .include sirve para que se incluyan datos de tablas
+                //relacionadas (que en el diseño están relacionadas con primary/foreign key
+                //Ya que no se han cargado porque estamos con lazyloading
+                var alu = ctx.Alumno.Include("Curso").Where(o => o.DNI.Contains("A"));
+            }
+
+            //Para desactivar a nivel global, dejando la opción de activarlo según el método:
+            //Crear una clase partial que incluya el constructor del model.
+            //Luego en la llamada para crear el ctx, la llamada al entitie y se le pasa un valor
+            //ya que se ha definido que reciba un valor el constructor.
+
+            using (var ctx = new CentroFormacionEntities(false))
+            {
+            }
+
+
+        }
+
+
         //Subselects.
         public static void Subselect()
         {

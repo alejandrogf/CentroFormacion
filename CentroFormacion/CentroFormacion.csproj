@@ -78,6 +78,7 @@
     <Compile Include="model\Curso.cs">
       <DependentUpon>CentroFormacionModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="model\PartialContexto.cs" />
     <Compile Include="model\Profesor.cs">
       <DependentUpon>CentroFormacionModel.tt</DependentUpon>
     </Compile>
